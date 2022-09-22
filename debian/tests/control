@@ -1,0 +1,12 @@
+# Test a round trip compress/uncompress cycle using all ncompress binaries
+Tests: roundtrip
+Depends: @, diffutils
+
+# Test a round trip compress/uncompress cycle between gzip and ncompress 
+Tests: gzipcompatibility
+Depends: @, diffutils, gzip
+
+# Test to prevent regressions related to soft links
+Tests: softlink
+Depends: @, diffutils
+

@@ -1,0 +1,510 @@
+ncompress (4.2.4.6-5) unstable; urgency=medium
+
+  * Bump standards version to 4.6.0.0 (no packaging changes).
+  * Update debian/watch to reflect version 4 format (no changes).
+
+ -- Kenneth J. Pronovici <pronovic@debian.org>  Wed, 18 Aug 2021 15:14:28 +0000
+
+ncompress (4.2.4.6-4) unstable; urgency=medium
+
+  * Package cleanup based on a review at qa.debian.org.
+    - Update debian/control to move to debhelper-compat (= 13)
+    - Add Lintian override for debian-watch-does-not-check-gpg-signature
+
+ -- Kenneth J. Pronovici <pronovic@debian.org>  Thu, 29 Oct 2020 21:13:34 +0000
+
+ncompress (4.2.4.6-3) unstable; urgency=low
+
+  * Accept package cleanup from Debian Janitor.
+    - Trim trailing whitespace
+    - Set upstream metadata
+
+ -- Kenneth J. Pronovici <pronovic@debian.org>  Thu, 16 Jul 2020 23:37:32 -0000
+
+ncompress (4.2.4.6-2) unstable; urgency=medium
+
+  * Bump standards version to 4.5.0.0 (no packaging changes).
+  * Adjust debian/watch so it doesn't catch the 4.2.4.6-old file at GitHub.
+
+ -- Kenneth J. Pronovici <pronovic@debian.org>  Sat, 27 Jun 2020 18:01:29 +0000
+
+ncompress (4.2.4.6-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Adjust debian/patches/fix-softlinks.patch for new upstream GNUmakefile.
+
+ -- Kenneth J. Pronovici <pronovic@debian.org>  Wed, 01 Jan 2020 16:44:34 +0000
+
+ncompress (4.2.4.5-4) unstable; urgency=medium
+
+  * Bump standards version to 4.4.0.1 (no packaging changes).
+  * Build-Depend on debhelper-compat (= 12) and remove debian/compat.
+
+ -- Kenneth J. Pronovici <pronovic@debian.org>  Sat, 10 Aug 2019 19:40:58 +0000
+
+ncompress (4.2.4.5-3) unstable; urgency=medium
+
+  * Incorporate package cleanup from Guillem Jover in guillem:pu/cleanups.
+    - In debian/rules, use $(MAKE) rather than make to support parallel builds
+    - In debian/rules, use buildtools.mk instead of setting vars manually
+    - In debian/rules, no longer require root to build the package
+    - In debian/control, split Depends/Build-Depends onto multiple lines
+    - In debian/control, remove obsolete dpkg-dev and move to latest debhelper
+
+ -- Kenneth J. Pronovici <pronovic@debian.org>  Sun, 03 Feb 2019 14:55:32 +0000
+
+ncompress (4.2.4.5-2) unstable; urgency=medium
+
+  * Fix regression so soft links can be uncompressed again (fixes: #918836).
+    - Add new autopkgtest debian/tests/softlink to catch regressions
+    - Add new patch debian/patches/fix-softlinks.patch to remove -DLSTAT
+
+ -- Kenneth J. Pronovici <pronovic@debian.org>  Sat, 12 Jan 2019 15:55:35 +0000
+
+ncompress (4.2.4.5-1) unstable; urgency=medium
+
+  * New upstream release.
+  * Bump standards version to 4.3.0.0 (no packaging changes).
+  * Fix doc install in debian/rules to use README.md instead of README.
+  * Use 'make compress' rather than explicit $(CC) build in debian/rules.
+  * Run the new upstream test suite as part of the Debian build process.
+  * Refresh debian/patches/uncompress-real.patch to reflect upstream changes.
+  * Refresh debian/patches/remove-zcat.patch to reflect upstream changes.
+  * Remove debian/patches/code-typos.patch because upstream contains fix.
+  * Remove debian/patches/code-warnings.patch because upstream contains fix.
+  * Revert some reproducible build changes obviated by upstream improvements.
+    - Remove reproducible.patch, because upstream removed COMPILE_DATE usage
+    - Remove NCOMPRESS_VERSION in debian/rules, which was used by the patch
+
+ -- Kenneth J. Pronovici <pronovic@debian.org>  Sat, 05 Jan 2019 11:31:48 +0000
+
+ncompress (4.2.4.4-23) unstable; urgency=medium
+
+  * Make testing improvements, including contributions from Ondřej Nový:
+    - Use AUTOPKGTEST_ vars instead of ADT_ in test suite
+
+ -- Kenneth J. Pronovici <pronovic@debian.org>  Sat, 20 Oct 2018 10:17:01 +0000
+
+ncompress (4.2.4.4-22) unstable; urgency=medium
+
+  * Bump standards version to 4.2.1.0 (no packaging changes).
+  * Convert to correct https copyright file URI.
+
+ -- Kenneth J. Pronovici <pronovic@debian.org>  Sun, 16 Sep 2018 18:16:20 +0000
+
+ncompress (4.2.4.4-21) unstable; urgency=medium
+
+  * Bump standards version to 4.2.0.1 (no packaging changes).
+
+ -- Kenneth J. Pronovici <pronovic@debian.org>  Tue, 07 Aug 2018 01:52:17 +0000
+
+ncompress (4.2.4.4-20) unstable; urgency=medium
+
+  * Convert Debian packaging from Subversion to Git.
+  * Bump standards version to 4.1.3.0 (no packaging changes).
+
+ -- Kenneth J. Pronovici <pronovic@debian.org>  Wed, 03 Jan 2018 02:42:36 +0000
+
+ncompress (4.2.4.4-19) unstable; urgency=medium
+
+  * Remove "Testsuite: autopkgtest" from debian/control per Lintian warning.
+  * Bump standards version to 4.1.1.0 (no packaging changes)
+
+ -- Kenneth J. Pronovici <pronovic@debian.org>  Sun, 12 Nov 2017 21:18:19 +0000
+
+ncompress (4.2.4.4-18) unstable; urgency=medium
+
+  * Fix build process to work when cross-building (closes: #876108).
+    - Initial patch contributed by Helmut Grohne <helmut@subdivi.de>
+    - Update debian/rules to use a triplet-prefixed compiler
+    - Update debian/rules to honor DEB_BUILD_OPTIONS=nocheck
+
+ -- Kenneth J. Pronovici <pronovic@debian.org>  Tue, 19 Sep 2017 00:21:33 +0000
+
+ncompress (4.2.4.4-17) unstable; urgency=medium
+
+  * Bump standards version to 4.0.0.0 (no packaging changes).
+
+ -- Kenneth J. Pronovici <pronovic@debian.org>  Sun, 02 Jul 2017 21:19:50 +0000
+
+ncompress (4.2.4.4-16) unstable; urgency=medium
+
+  * Bump standards version to 3.9.8.0 (no packaging changes).
+  * Export "DEB_BUILD_MAINT_OPTIONS = hardening=+all" in debian/rules.
+
+ -- Kenneth J. Pronovici <pronovic@debian.org>  Mon, 20 Jun 2016 20:43:08 +0000
+
+ncompress (4.2.4.4-15) unstable; urgency=medium
+
+  * Remove gzip and diffutils from build deps; they're essential packages.
+
+ -- Kenneth J. Pronovici <pronovic@debian.org>  Tue, 11 Aug 2015 18:14:57 -0500
+
+ncompress (4.2.4.4-14) unstable; urgency=medium
+
+  * Add support for the Debian continuous integration environment.
+    - Update debian/control to list Testsuite: autopkgtest
+    - Add debian/tests/control to list tests for CI environment
+    - Rewrite debian/smoketest in terms of debian/tests scripts
+
+ -- Kenneth J. Pronovici <pronovic@debian.org>  Mon, 10 Aug 2015 13:51:19 -0500
+
+ncompress (4.2.4.4-13) unstable; urgency=medium
+
+  * Add upstream commit URL to code-typos.patch.
+  * Add upstream commit URL to code-warnings.patch and adjust to match commit.
+
+ -- Kenneth J. Pronovici <pronovic@debian.org>  Sat, 08 Aug 2015 00:52:04 -0500
+
+ncompress (4.2.4.4-12) unstable; urgency=medium
+
+  * Bump standards version to 3.9.6.1 (no packaging changes).
+
+ -- Kenneth J. Pronovici <pronovic@debian.org>  Wed, 05 Aug 2015 13:56:15 -0500
+
+ncompress (4.2.4.4-11) unstable; urgency=medium
+
+  * Update copyright for debian/* files to include 2015.
+  * Submit patches from 4.2.4.4-10 to GitHub and add Forwarded: URL.
+  * Tweak patch descriptions to remove unncessary leading # character.
+  * Add compress version output to debian/smoketest, for completeness.
+  * Account for upstream move from SourceForge to GitHub.
+    - Fix debian/README.debian, debian/copyright, debian/control, debian/watch
+
+ -- Kenneth J. Pronovici <pronovic@debian.org>  Wed, 05 Aug 2015 11:55:57 -0500
+
+ncompress (4.2.4.4-10) unstable; urgency=medium
+
+  * Add code-typos.patch to to fix typo "vesion" vs "version" in compress42.c.
+  * Add a quick unit test to prove that compiled code appears to work.
+    - Create shell script debian/smoketest and debian/sample.txt
+    - Add override_dh_auto_test in debian/rules to invoke smoketest
+    - Add new build dep on gzip (>= 1.2.4) and diffutils (>= 2.7-11)
+  * Rebuild with GCC 5 and fix compiler warnings.
+    - Modify debian/rules to set -DUTIME_H so <utime.h> gets included properly
+    - Add code-warnings.patch to fix %d vs %ld warning in compress42.c
+  * Make build reproducible by removing the need for the COMPILE_DATE #define.
+    - Upgrade build dep on dpkg-dev to >= 1.17.0, for dpkg-parsechangelog -S
+    - Derive NCOMPRESS_VERSION in debian/rules using dpkg-parsechangelog output
+    - Modify debian/rules to set -DNCOMPRESS_VERSION rather than -DCOMPILE_DATE
+    - Add reproducible.patch to make -V use NCOMPRESS_VERSION in compress42.c
+
+ -- Kenneth J. Pronovici <pronovic@debian.org>  Tue, 04 Aug 2015 20:13:43 -0500
+
+ncompress (4.2.4.4-9) unstable; urgency=medium
+
+  * Fix Lintian bug in debian/copyright: empty-short-license-in-dep5-copyright.
+  * Bump standards version to 3.9.6.0 (no packaging changes).
+
+ -- Kenneth J. Pronovici <pronovic@debian.org>  Fri, 03 Oct 2014 19:34:32 +0000
+
+ncompress (4.2.4.4-8) unstable; urgency=low
+
+  * Bump standards version to 3.9.5.0 (no packaging changes).
+
+ -- Kenneth J. Pronovici <pronovic@debian.org>  Sun, 23 Feb 2014 09:39:44 -0600
+
+ncompress (4.2.4.4-7) unstable; urgency=low
+
+  * Convert debian/rules to debhelper7.
+
+ -- Kenneth J. Pronovici <pronovic@debian.org>  Wed, 24 Apr 2013 16:38:25 +0000
+
+ncompress (4.2.4.4-6) unstable; urgency=low
+
+  * Bump standards version to 3.9.4.0; no packaging changes.
+  * Fix buildd log scanner W-build-stamp-in-binary warning in debian/rules.
+    - Get rid of configure target (not necessary, causes problems)
+  * Make other minor tweaks in debian/rules for consistency.
+    - Add new .PHONY targets for all rules that don't create files
+    - Change binary to depend on both binary-arch and binary-indep
+    - Change binary-arch to depend on install, not build and install
+
+ -- Kenneth J. Pronovici <pronovic@debian.org>  Mon, 31 Dec 2012 19:47:27 +0000
+
+ncompress (4.2.4.4-5) unstable; urgency=low
+
+  * Rearrange debian/rules slightly, to match other packages I maintain.
+    - Move configure from build to build-stamp, so it's run consistently.
+
+ -- Kenneth J. Pronovici <pronovic@debian.org>  Sat, 31 Mar 2012 21:48:46 +0000
+
+ncompress (4.2.4.4-4) unstable; urgency=low
+
+  * Update to machine-readable debian/copyright file format, version 1.0.
+  * Bump standards version to 3.9.3.0; no packaging changes.
+  * Add Build-Depends on dpkg-dev (>= 1.16.1), since I use buildflags.mk.
+  * Support compile-time hardening to meet the release goal for wheezy.
+    - Move to debhelper (>= 9) and debian/compat=9
+    - Add $LDFLAGS and $CPPFLAGS in debian/rules (closes: #663581).
+
+ -- Kenneth J. Pronovici <pronovic@debian.org>  Mon, 12 Mar 2012 12:06:24 -0500
+
+ncompress (4.2.4.4-3) unstable; urgency=low
+
+  * Handle changes to build flag behavior introduced with dpkg-dev 1.16.1.
+    - Modify debian/rules to set DPKG_EXPORT_BUILDFLAGS=1 and call buildflags.mk
+
+ -- Kenneth J. Pronovici <pronovic@debian.org>  Mon, 26 Sep 2011 12:14:58 -0500
+
+ncompress (4.2.4.4-2) unstable; urgency=low
+
+  * Bump standards version to 3.9.2.0; no packaging changes.
+  * Fix Lintian warning: debian-rules-missing-recommended-target
+    - Restructure build, build-arch, build-indep targets in debian/rules
+
+ -- Kenneth J. Pronovici <pronovic@debian.org>  Fri, 05 Aug 2011 16:19:01 -0500
+
+ncompress (4.2.4.4-1) unstable; urgency=low
+
+  * New upstream release.
+    - Upstream now contains spelling-error.patch and manpage-syntax.patch
+    - Tweak remove-zcat.patch and uncompress-real.patch for new compress.1
+  * Bump standards version to 3.9.1.0 (no packaging changes).
+
+ -- Kenneth J. Pronovici <pronovic@debian.org>  Mon, 13 Sep 2010 21:07:29 -0500
+
+ncompress (4.2.4.3-6) unstable; urgency=low
+
+  * Rework manpage-syntax patch AGAIN after further discussion with upstream.
+    - This change refines my fixes for Lintian's hyphen/dash/minus warnings
+    - Minor changes cascaded into remove-zcat.patch and uncompress-real.patch
+
+ -- Kenneth J. Pronovici <pronovic@debian.org>  Mon, 19 Jul 2010 17:32:07 -0500
+
+ncompress (4.2.4.3-5) unstable; urgency=low
+
+  * Rework manpage-syntax.patch after discussion with upstream.
+    - Put SEE ALSO section back to its original location and preserve formatting
+
+ -- Kenneth J. Pronovici <pronovic@debian.org>  Mon, 12 Jul 2010 03:43:55 +0000
+
+ncompress (4.2.4.3-4) unstable; urgency=low
+
+  * Rework patches so that they make more sense from an upstream perspective.
+  * Fix warnings from the Full Lintian Report in the PTS.
+    - Fix spelling errors in compress42.c (in spelling-error.patch)
+    - Properly escape "-" in compress.1 (in manpage-syntax.patch)
+
+ -- Kenneth J. Pronovici <pronovic@debian.org>  Sat, 10 Jul 2010 19:34:41 -0500
+
+ncompress (4.2.4.3-3) unstable; urgency=low
+
+  * Stop overriding $(CFLAGS) and accept whatever is passed to debian/rules.
+
+ -- Kenneth J. Pronovici <pronovic@debian.org>  Fri, 02 Jul 2010 19:42:07 -0500
+
+ncompress (4.2.4.3-2) unstable; urgency=low
+
+  * Tweak long and short descriptions.
+  * Bump standards version to 3.9.0.0.
+  * Add Homepage: tag in debian/control.
+  * Convert debian/copyright to new DEP-5 machine-readable format.
+  * Convert to source format "3.0 (quilt)"
+    - Add new file debian/source/format
+    - Add new patch debian/patches/uncompress-real.patch
+    - Add new patch debian/patches/remove-zcat.patch
+    - Add new patch debian/patches/manpage-syntax.patch
+
+ -- Kenneth J. Pronovici <pronovic@debian.org>  Mon, 28 Jun 2010 13:33:54 -0500
+
+ncompress (4.2.4.3-1) unstable; urgency=low
+
+  * New upstream release.
+  * Bump standards version to 3.8.4 (no packaging changes)
+
+ -- Kenneth J. Pronovici <pronovic@debian.org>  Sun, 28 Feb 2010 11:14:46 -0600
+
+ncompress (4.2.4.2-3) unstable; urgency=low
+
+  * Fix warnings/problems indicated on package tracking page.
+    - Bump standards version to 3.8.3 (no packaging changes)
+    - Add ${misc:Depends} for all binary packages
+
+ -- Kenneth J. Pronovici <pronovic@debian.org>  Sun, 10 Jan 2010 18:52:27 +0000
+
+ncompress (4.2.4.2-2) unstable; urgency=low
+
+  * Bump standards version to 3.8.1 (no packaging changes).
+  * Bump debhelper compatibility to 7, per linitian recommendation.
+  * Declare a dependency on debhelper (>= 7.0.1) to match compatibility.
+  * Remove unneeded leading .PU in compress.1, to quiet lintian.
+
+ -- Kenneth J. Pronovici <pronovic@debian.org>  Sun, 29 Mar 2009 18:07:21 -0500
+
+ncompress (4.2.4.2-1) unstable; urgency=low
+
+  * Move to the SourceForge project, which is actively maintained.
+    - Upgrade to version 4.2.4.2
+    - Update debian/copyright to note the SF maintainer
+    - Updated debian/README.Debian to discuss SF package
+    - Updated debian/watch to point to the new upstream source
+
+ -- Kenneth J. Pronovici <pronovic@debian.org>  Sun, 18 Nov 2007 16:42:48 -0600
+
+ncompress (4.2.4.0-3) unstable; urgency=low
+
+  * Fix incorrect reference to /usr/doc (closes: #437106).
+
+ -- Kenneth J. Pronovici <pronovic@debian.org>  Sun,  9 Sep 2007 17:54:50 -0500
+
+ncompress (4.2.4.0-2) unstable; urgency=low
+
+  * Fixed Debian watch file to include "real" upstream version.
+
+ -- Kenneth J. Pronovici <pronovic@debian.org>  Sun, 12 Nov 2006 12:23:24 -0600
+
+ncompress (4.2.4.0-1) unstable; urgency=low
+
+  * Fake upstream "version change" to force dak migration (closes: #395486).
+    - dak cannot cleanly migrate from non-free to main without a version change
+    - Because of this, the sources (orig.tar.gz) were still deployed to non-free
+
+ -- Kenneth J. Pronovici <pronovic@debian.org>  Sat, 28 Oct 2006 13:42:27 -0500
+
+ncompress (4.2.4-16) unstable; urgency=low
+
+  * Bumped standards version to 3.7.2 (no packaging changes).
+  * Integrate changes from security team's 4.2.4-15sarge2 upload.
+    Apply patch from Tavis Ormandy/Ludwig Nussel to fix missing boundary check.
+    [compress42.c, CVE-2006-1168]
+
+ -- Kenneth J. Pronovici <pronovic@debian.org>  Mon, 11 Sep 2006 21:13:13 -0500
+
+ncompress (4.2.4-15) unstable; urgency=low
+
+  * Move to main now that LZW patent has expired (closes: #261282).
+  * Update debian/copyright to be clearer about public domain status.
+  * Move James A. Woods letter from copyright file to README.Debian.
+  * Move detailed location information from copyright file to README.Debian.
+
+ -- Kenneth J. Pronovici <pronovic@debian.org>  Wed, 25 Aug 2004 13:38:42 -0500
+
+ncompress (4.2.4-14) unstable; urgency=low
+
+  * Bumped standards version to 3.6.1 (no package changes).
+  * Fix gcc-3.4 build problem (closes: #260723).
+    - Add -DNOFUNCDEFS to gcc command, to prevent custom prototypes for
+      standard functions from being used by the compiler.
+
+ -- Kenneth J. Pronovici <pronovic@debian.org>  Wed, 21 Jul 2004 20:49:01 -0500
+
+ncompress (4.2.4-13) unstable; urgency=low
+
+  * Disallow maxbits less than 10, to avoid data corruption (closes: #220820).
+  * Added note in debian/README.Debian about 9-bit corruption.
+
+ -- Kenneth J. Pronovici <pronovic@debian.org>  Fri, 14 Nov 2003 15:47:08 -0600
+
+ncompress (4.2.4-12) unstable; urgency=low
+
+  * Upstream source changed (ibiblio.org replaced sunsite.unc.edu).
+    - Updated debian/watch to use correct URL
+    - Updated debian/copyright to note new download location
+    - Updated debian/copyright to clarify packaging history
+
+ -- Kenneth J. Pronovici <pronovic@debian.org>  Fri, 19 Sep 2003 10:40:56 -0500
+
+ncompress (4.2.4-11) unstable; urgency=low
+
+  * Changed debian/README.debian to document (lack of) large file support.
+  * Changed section to 'optional' in debian/control to match overrides.
+
+ -- Kenneth J. Pronovici <pronovic@debian.org>  Mon, 14 Apr 2003 15:34:36 -0500
+
+ncompress (4.2.4-10) unstable; urgency=low
+
+  * New maintainer (closes: #182937).
+  * Updated debian/copyright to reflect new maintainer.
+  * Removed local variables from debian/changelog.
+  * Updated debian/control file.
+    - Reflect new maintainer.
+    - Change standards version to 3.5.9.
+    - Update debhelper depends to (>= 4.0.2).
+    - Rewrite and clarify short and long descriptions.
+    - Fix spelling error in long description (closes: #125169).
+  * Updated comments in debian/README.debian.
+  * Brought debian/rules up to "modern" standards.
+  * Updated debian/copyright to clarify download location.
+  * Added debian/watch file.
+  * Added debian/compat file at compatibility level 4.
+  * Changed prototype of main() in compress42.c, to quiet gcc.
+  * Updated compress.1 manpage (closes: #99585).
+    - Reference 'uncompress.real' rather than 'uncompress'.
+    - No longer reference zcat at all.
+
+ -- Kenneth J. Pronovici <pronovic@debian.org>  Mon,  7 Apr 2003 17:52:47 -0500
+
+ncompress (4.2.4-9.1) unstable; urgency=low
+
+  * NMU based on patch by Stephen Stafford <bagpuss@debian.org>:
+    - FHS transition (closes: #91011, #91596).
+    - Added build-depends on debhelper.
+    - Uncommented call to dh_installdeb so the debhelper postinst and prerm
+      files get installed with the FHS transition symlink stuff.
+    - Bumped standards to 3.5.0.
+
+ -- Colin Watson <cjwatson@debian.org>  Wed, 25 Jul 2001 11:52:18 +0100
+
+ncompress (4.2.4-9) frozen unstable; urgency=low
+
+  * Upload for frozen.
+
+ -- Adam Klein <aklein@debian.org>  Thu,  3 Dec 1998 19:57:56 -0800
+
+ncompress (4.2.4-8) unstable; urgency=low
+
+  * No longer segfaults on long file names. (closes: #26416)
+  * Standards version 2.5.0.0 (no changes).
+  * 19 Oct 2004: reference CAN-2001-1413 and VU#176363.
+
+ -- Adam Klein <aklein@debian.org>  Wed,  2 Dec 1998 23:19:45 -0800
+
+ncompress (4.2.4-7) unstable; urgency=low
+
+  * Removed dh_du invocation from debian/rules
+
+ -- Adam Klein <aklein@debian.org>  Wed, 11 Mar 1998 23:17:13 -0500
+
+ncompress (4.2.4-6) unstable; urgency=low
+
+  * Moved exit status info to DIAGNOSTICS section (closes: #16640)
+
+ -- Adam Klein <aklein@debian.org>  Tue, 10 Feb 1998 21:27:56 -0800
+
+ncompress (4.2.4-5) unstable; urgency=low
+
+  * New maintainer
+  * README.debian now mentions uncompress.real
+  * Treat argv[0] value of "uncompress.real" as "uncompress" (closes: #16621)
+  * Use debhelper (closes: #9674, #14503)
+  * Control file now lists section as non-free/utils
+  * Use standards version 2.4.0.0
+
+ -- Adam Klein <aklein@debian.org>  Tue, 27 Jan 1998 09:28:38 -0800
+
+ncompress (4.2.4-4) unstable; urgency=low
+
+  * Rebuilt for hamm
+
+ -- Christoph Lameter <clameter@waterf.org>  Mon, 29 Sep 1997 22:38:22 -0700
+
+ncompress (4.2.4-3) unstable; urgency=low
+
+  * new Maintainer
+
+ -- Helmut Geyer <Helmut.Geyer@iwr.uni-heidelberg.de>  Fri,  6 Jun 1997 07:31:46 +0200
+
+ncompress (4.2.4-2) unstable; urgency=low
+
+  * install uncompress as uncompress.real since gzip maintainer did not
+    want to use alternative and gzip already installs a link for uncompress
+    to gzip.
+
+ -- Christoph Lameter <clameter@debian.org>  Mon, 30 Dec 1996 16:24:03 -0800
+
+ncompress (4.2.4-1) unstable; urgency=low
+
+  * Initial Release.
+
+ -- Christoph Lameter <clameter@debian.org>  Sun, 22 Dec 1996 10:14:17 -0800

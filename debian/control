@@ -1,0 +1,26 @@
+Source: ncompress
+Section: utils
+Priority: optional
+Maintainer: Kenneth J. Pronovici <pronovic@debian.org>
+Homepage: https://github.com/vapier/ncompress
+Build-Depends: debhelper-compat (= 13)
+Rules-Requires-Root: no
+Standards-Version: 4.6.0.0
+Vcs-Browser: https://salsa.debian.org/debian/ncompress
+Vcs-Git: https://salsa.debian.org/debian/ncompress.git
+
+Package: ncompress
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: original Lempel-Ziv compress/uncompress programs
+ This package provides the original compress and uncompress programs that used
+ to be the de facto UNIX standard for compressing and uncompressing files.
+ These programs implement a fast, simple Lempel-Ziv (LZW) file compression
+ algorithm.
+ .
+ For Debian, the standard uncompress program is installed as uncompress.real,
+ to avoid conflicting with other packages.
+ .
+ This package also contains a copyright notice and a brief discussion of the
+ LZW patent history (written by one of the original authors) in the file
+ /usr/share/doc/ncompress/README.Debian.

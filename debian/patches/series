@@ -1,0 +1,3 @@
+remove-zcat.patch
+uncompress-real.patch
+fix-softlinks.patch

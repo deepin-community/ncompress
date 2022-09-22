@@ -1,0 +1,103 @@
+Description: Use uncompress.real instead of uncompress.
+ The gzip package already has a program called uncompress.  For historical
+ purposes, the solution to this is to have ncompress install its program as
+ uncompress.real rather than uncompress.  See README.Debian for more
+ information.
+Author: Kenneth J. Pronovici <pronovic@debian.org>
+Index: ncompress/compress42.c
+===================================================================
+--- ncompress.orig/compress42.c
++++ ncompress/compress42.c
+@@ -731,7 +731,7 @@ main(argc, argv)
+ 		else
+ 			progname = argv[0];
+ 
+-    	if (strcmp(progname, "uncompress") == 0)
++    	if (strcmp(progname, "uncompress.real") == 0)
+ 			do_decomp = 1;
+ 		else
+ 		if (strcmp(progname, "zcat") == 0)
+Index: ncompress/compress.1
+===================================================================
+--- ncompress.orig/compress.1
++++ ncompress/compress.1
+@@ -1,6 +1,6 @@
+ .TH COMPRESS 1 local
+ .SH NAME
+-compress, uncompress \- compress and expand data
++compress, uncompress.real \- compress and expand data
+ .SH SYNOPSIS
+ .ll +8
+ .B compress
+@@ -24,7 +24,7 @@ compress, uncompress \- compress and exp
+ ]
+ .ll -8
+ .br
+-.B uncompress
++.B uncompress.real
+ [
+ .B \-f
+ ] [
+@@ -39,6 +39,14 @@ compress, uncompress \- compress and exp
+ .I "name \&..."
+ ]
+ .SH DESCRIPTION
++.PP
++Note that the program that would normally be installed as
++.I uncompress
++is installed for Debian as
++.I uncompress.real.
++This has been done to avoid conflicting with the more-commonly-used
++program with the same name that is part of the gzip package.
++.PP
+ .I Compress
+ reduces the size of the named files using adaptive Lempel\-Ziv coding.
+ Whenever possible,
+@@ -64,9 +72,9 @@ is run in the foreground,
+ the user is prompted as to whether an existing file should be overwritten.
+ .PP
+ Compressed files can be restored to their original form using
+-.I uncompress.
++.I uncompress.real.
+ .PP
+-.I uncompress
++.I uncompress.real
+ takes a list of files on its command line and replaces each
+ file whose name ends with
+ .B "\&.Z"
+@@ -79,7 +87,7 @@ timestamps of the compressed file.
+ The
+ .B \-c
+ option makes
+-.I compress/uncompress
++.I compress/uncompress.real
+ write to the standard output; no files are changed.
+ .PP
+ If the
+@@ -129,7 +137,7 @@ the algorithm to adapt to the next "bloc
+ Note that the
+ .B \-b
+ flag is omitted for
+-.I uncompress,
++.I uncompress.real,
+ since the 
+ .I bits
+ parameter specified during compression
+@@ -178,7 +186,7 @@ Maxbits must follow
+ not in compressed format
+ .in +8
+ The file specified to
+-.I uncompress
++.I uncompress.real
+ has not been compressed.
+ .in -8
+ .IR file :
+@@ -215,7 +223,7 @@ already exists; do you wish to overwrite
+ .in +8
+ Respond "y" if you want the output file to be replaced; "n" if not.
+ .in -8
+-uncompress: corrupt input
++uncompress.real: corrupt input
+ .in +8
+ A SIGSEGV violation was detected which usually means that the input file has
+ been corrupted.

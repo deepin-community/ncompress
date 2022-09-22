@@ -1,0 +1,52 @@
+#!/bin/sh
+
+# Configure the tests to run 
+TESTS="roundtrip gzipcompatibility softlink"
+
+# Run portions of the autopkgtest suite, with an autopkgtest-like environment
+RESULT="succeeded"
+for TEST in ${TESTS}; do
+
+   # Create the $AUTOPKGTEST_TMP directory like autopkgtest
+   export AUTOPKGTEST_TMP=`mktemp -d`
+   if [ $? != 0 ]; then
+      echo "${TEST} failed: failed to create \$AUTOPKGTEST_TMP"
+      exit 1
+   elif [ ! -d "${AUTOPKGTEST_TMP}" ]; then
+      echo "${TEST} failed: could not create \$AUTOPKGTEST_TMP"
+      exit 1
+   fi
+
+   # Create the $AUTOPKGTEST_ARTIFACTS directory like autopkgtest
+   export AUTOPKGTEST_ARTIFACTS=`mktemp -d`
+   if [ $? != 0 ]; then
+      echo "${TEST} failed: failed to create \$AUTOPKGTEST_ARTIFACTS"
+      exit 1
+   elif [ ! -d "${AUTOPKGTEST_ARTIFACTS}" ]; then
+      echo "${TEST} failed: could not create \$AUTOPKGTEST_ARTIFACTS"
+      exit 1
+   fi
+
+   # Execute the testcase
+   TESTCASE="debian/tests/${TEST}"
+   if [ ! -f "${TESTCASE}" ]; then
+      echo "${TEST} failed: testcase does not exist"
+      RESULT="failed"
+   else
+      sh ${TESTCASE} -r   # -r to run in "debian/rules" mode
+      if [ $? != 0 ]; then
+         echo "${TEST} failed: non-zero exit status"
+         RESULT="failed"
+      fi
+   fi
+
+   # Remove the temporary directories
+   rm -rf ${AUTOPKGTEST_TMP}
+   rm -rf ${AUTOPKGTEST_ARTIFACTS}
+done
+
+# Exit with non-zero upon failure, to kill the build
+if [ "${RESULT}" = "failed" ]; then
+   exit 1
+fi
+

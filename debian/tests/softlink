@@ -1,0 +1,197 @@
+#!/bin/sh
+
+# Make sure $AUTOPKGTEST_TMP is available
+if [ "${AUTOPKGTEST_TMP}"F = "F" ]; then
+   echo "Error: expected environment variable AUTOPKGTEST_TMP is not set."
+   exit 1
+fi
+
+# Make sure $AUTOPKGTEST_ARTIFACTS is available
+if [ "${AUTOPKGTEST_ARTIFACTS}"F = "F" ]; then
+   echo "Error: expected environment variable AUTOPKGTEST_ARTIFACTS is not set."
+   exit 1
+fi
+
+# Determine the test execution mode 
+if [ "${1}"F = "F" ]; then
+   MODE="autopkgtest"
+elif [ "${1}" = "-r" ]; then
+   MODE="debian/rules"
+else 
+   echo "usage: $0 [-r]\n-r Run in debian/rules mode instead of autopkgtest mode"
+   exit 2
+fi
+
+# Determine locations of required tools
+SOURCE_TREE="${PWD}"
+if [ "${MODE}" = "debian/rules" ]; then
+   # In debian/rules mode, the executables are assumed to be in the source tree
+   COMPRESS="${PWD}/compress"
+   UNCOMPRESS="${PWD}/compress -d"
+   DIFF="/usr/bin/diff"
+else
+   # In autopkgtest mode, the executables are assumed to be installed
+   COMPRESS="/usr/bin/compress"
+   UNCOMPRESS="/usr/bin/uncompress.real"
+   DIFF="/usr/bin/diff"
+fi
+
+# Print a test summary
+echo ""
+echo "========================================================================="
+echo "Running ${0} in mode: ${MODE}"
+echo "========================================================================="
+echo "SOURCE_TREE..........: ${SOURCE_TREE}"
+echo "AUTOPKGTEST_TMP......: ${AUTOPKGTEST_TMP}"
+echo "AUTOPKGTEST_ARTIFACTS: ${AUTOPKGTEST_ARTIFACTS}"
+echo "COMPRESS.............: ${COMPRESS}"
+echo "UNCOMPRESS...........: ${UNCOMPRESS}"
+echo "DIFF.................: ${DIFF}"
+echo "========================================================================="
+echo ""
+
+# Always run tests from within $AUTOPKGTEST_TMP
+cd ${AUTOPKGTEST_TMP}
+
+# Create an input file
+echo -n "Creating input file..."
+SAMPLE=${SOURCE_TREE}/debian/tests/data/sample.txt
+
+cp ${SAMPLE} input >/dev/null 2>&1
+if [ $? != 0 ]; then
+   echo "failed"
+   exit 1
+fi
+
+echo "done."
+
+# Create a soft link to the input file
+echo -n "Creating input file link..."
+
+ln -s input inputlink >/dev/null 2>&1
+if [ $? != 0 ]; then
+   echo "failed"
+   exit 1
+fi
+
+echo "done."
+
+# Compress the input file link
+# Note: do this before compressing input file, otherwise input file will be gone. :)
+echo -n "Compressing the input file link..."
+
+${COMPRESS} inputlink >/dev/null 2>&1
+if [ $? != 0 ]; then
+   echo "failed"
+   exit 1
+fi
+
+if [ ! -f inputlink.Z ]; then
+   echo "failed: did not get expected output file inputlink.Z"
+   exit 1
+fi
+
+echo "done."
+
+# Compress the input file
+echo -n "Compressing the input file..."
+
+${COMPRESS} input >/dev/null 2>&1
+if [ $? != 0 ]; then
+   echo "failed"
+   exit 1
+fi
+
+if [ ! -f input.Z ]; then
+   echo "failed: did not get expected output file input.Z"
+   exit 1
+fi
+
+echo "done."
+
+# Create soft links to the compressed file
+echo -n "Creating the output file links..."
+
+ln -s input.Z outputlink1.Z >/dev/null 2>&1
+if [ $? != 0 ]; then
+   echo "failed"
+   exit 1
+fi
+
+ln -s input.Z outputlink2.Z >/dev/null 2>&1
+if [ $? != 0 ]; then
+   echo "failed"
+   exit 1
+fi
+
+echo "done."
+
+# Check that uncompress works on the input file link
+echo -n "Checking uncompress behavior for input file link..."
+
+${UNCOMPRESS} inputlink.Z >/dev/null 2>&1
+if [ $? != 0 ]; then
+   echo "failed"
+   exit 1
+fi
+
+if [ ! -f inputlink ]; then
+   echo "failed: did not get expected output file inputlink"
+   exit 1
+fi
+
+${DIFF} -q ${SAMPLE} inputlink >/dev/null 2>&1
+if [ $? != 0 ]; then
+   echo "failed: uncompressed file does not match original sample"
+   exit 1
+fi
+
+echo "done."
+
+# Check that uncompress works on a link to a compressed file
+echo -n "Checking uncompress behavior for link to compressed file..."
+
+${UNCOMPRESS} outputlink1.Z >/dev/null 2>&1
+if [ $? != 0 ]; then
+   echo "failed"
+   exit 1
+fi
+
+if [ ! -f outputlink1 ]; then
+   echo "failed: did not get expected output file input"
+   exit 1
+fi
+
+${DIFF} -q ${SAMPLE} outputlink1 >/dev/null 2>&1
+if [ $? != 0 ]; then
+   echo "failed: uncompressed file does not match original sample"
+   exit 1
+fi
+
+echo "done."
+
+# Check that compress -dc works on a link to a compressed file
+echo -n "Checking compress -dc behavior for link to compressed file..."
+
+${COMPRESS} -dc outputlink2.Z > result
+if [ $? != 0 ]; then
+   echo "failed"
+   exit 1
+fi
+
+if [ ! -f result ]; then
+   echo "failed: did not get expected output file input"
+   exit 1
+fi
+
+${DIFF} -q ${SAMPLE} result >/dev/null 2>&1
+if [ $? != 0 ]; then
+   echo "failed: uncompressed file does not match original sample"
+   exit 1
+fi
+
+echo "done."
+
+# Close the test
+echo ""
+

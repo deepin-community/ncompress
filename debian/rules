@@ -1,0 +1,47 @@
+#!/usr/bin/make -f
+
+# Set to enable verbose output from debhelper
+#export DH_VERBOSE=1
+
+# Export standard build flags like CPFLAGS, LDFLAGS, etc.
+# Note that we're using "-include" to make this backport-friendly.
+# The buildflags.mk script was introduced along with dpkg-dev 1.16.1.
+DPKG_EXPORT_BUILDFLAGS=1
+-include /usr/share/dpkg/buildflags.mk
+
+# Set up the environment for cross-builds to work correctly.
+# See: https://wiki.debian.org/CrossBuildPackagingGuidelines
+# The buildtools.mk script was introduced along with dpkg-dev 1.19.0.
+DPKG_EXPORT_BUILDTOOLS=1
+-include /usr/share/dpkg/buildtools.mk
+
+# Enable all hardening-related compiler options
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+
+%:
+	dh $@
+
+override_dh_installdocs:
+	dh_installdocs Acknowleds README.md
+
+# This takes the place of an upstream install process
+override_dh_auto_install:
+	install compress debian/ncompress/usr/bin
+	ln -s compress debian/ncompress/usr/bin/uncompress.real
+	install -m 644 compress.1 debian/ncompress/usr/share/man/man1
+	ln -s compress.1 debian/ncompress/usr/share/man/man1/uncompress.real.1
+
+# This takes the place of an upstream build process
+override_dh_auto_build:
+	$(MAKE) compress
+
+# This takes the place of an upstream clean process
+override_dh_auto_clean:
+	$(MAKE) cleanup
+	rm -f Makefile
+
+override_dh_auto_test:
+ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
+	$(MAKE) check          # upstream tests added with v4.2.4.5
+	sh debian/smoketest    # portions of the Debian autopkgtest suite
+endif

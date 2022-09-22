@@ -1,0 +1,62 @@
+Description: Remove references to zcat in the manpage.
+ We don't install a zcat tool, so it doesn't make sense to reference it.
+Author: Kenneth J. Pronovici <pronovic@debian.org>
+Index: ncompress/compress.1
+===================================================================
+--- ncompress.orig/compress.1
++++ ncompress/compress.1
+@@ -1,6 +1,6 @@
+ .TH COMPRESS 1 local
+ .SH NAME
+-compress, uncompress, zcat \- compress and expand data
++compress, uncompress \- compress and expand data
+ .SH SYNOPSIS
+ .ll +8
+ .B compress
+@@ -38,15 +38,6 @@ compress, uncompress, zcat \- compress a
+ ] [
+ .I "name \&..."
+ ]
+-.br
+-.B zcat
+-[
+-.B \-V
+-] [
+-.B \-\-
+-] [
+-.I "name \&..."
+-]
+ .SH DESCRIPTION
+ .I Compress
+ reduces the size of the named files using adaptive Lempel\-Ziv coding.
+@@ -73,9 +64,7 @@ is run in the foreground,
+ the user is prompted as to whether an existing file should be overwritten.
+ .PP
+ Compressed files can be restored to their original form using
+-.I uncompress
+-or
+-.I zcat.
++.I uncompress.
+ .PP
+ .I uncompress
+ takes a list of files on its command line and replaces each
+@@ -93,19 +82,6 @@ option makes
+ .I compress/uncompress
+ write to the standard output; no files are changed.
+ .PP
+-.I zcat
+-is identical to
+-.I uncompress
+-.B \-c.
+-.I zcat
+-uncompresses either a list of files on the command line or its
+-standard input and writes the uncompressed data on standard output.
+-.I zcat
+-will uncompress files that have the correct magic number whether
+-they have a
+-.B "\&.Z"
+-suffix or not.
+-.PP
+ If the
+ .B \-r
+ flag is specified, 
